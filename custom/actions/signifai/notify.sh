@@ -2,6 +2,8 @@
 
 # printf -v requires bash >= 3.1
 
+. params.sh
+
 # Provide the parameter names in the order that they are provided. 
 # BASE_ARGS is the overarching argument list, but processing shifts
 # when NUMBER_OF_EVALUATION_ENTITIES is hit. At that point it starts
