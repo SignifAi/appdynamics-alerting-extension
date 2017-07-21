@@ -1,0 +1,6 @@
+<custom-actions>
+  <action>
+    <type>signifai</type>
+    <executable>notify.sh</executable>
+  </action>
+</custom-actions>
