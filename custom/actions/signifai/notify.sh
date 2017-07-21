@@ -63,10 +63,10 @@ for arg in $BASE_ARGS; do
 											tcb_var="${tcb_arg}_${ee_idx}_${tc_idx}"
 											if [ "${!tc_var:0:9}" == "BASELINE_" ]; then
 												udb_var="USE_DEFAULT_BASELINE_${ee_idx}_${tc_idx}"
-												if [ "${tcb_arg}" == "USE_DEFAULT_BASELINE" -o \
-												     \( "${!udb_var}" == "false" -a \
+												if [ "${tcb_arg}" == "USE_DEFAULT_BASELINE" -o                                \
+												     \( "${!udb_var}" == "false" -a                                           \
 												       \( "${tcb_arg}" == "BASELINE_NAME" -o "${tcb_arg}" == "BASELINE_ID" \) \
-												     \) \
+												     \)                                                                       \
 												   ]; then
 													printf -v "$tcb_var" %s "${1//\"/\\\"}"
 													shift
