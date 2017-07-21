@@ -54,3 +54,13 @@ sh custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERRO
                                            "ConnectionBaselinePercent" $(uuidgen) 85 95           \
                                      "Connection threshold violated" 353535 http://example.com/   \
                                      POLICY_OPEN_CRITICAL SignifAi 343434
+
+echo "=== Test with not baseline, one evaluation, one condition ==="
+sh custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERROR CRITICAL        \
+                                     "testTag" testHealthRule $(uuidgen) 5 "HOST"                 \
+                                     "testhost.signifai.io" $(uuidgen) 1                          \
+                                     APPLICATION testConnectionThreshold $(uuidgen) 1             \
+                                     APPLICATION javaApp $(uuidgen) TooManyConnections $(uuidgen) \
+                                         GREATER_THAN ABSOLUTE 85 95                              \
+                                     "Connection threshold violated" 353535 http://example.com/   \
+                                     POLICY_OPEN_CRITICAL SignifAi 343434

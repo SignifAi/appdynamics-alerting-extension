@@ -97,6 +97,7 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
+# begin preamble
 cat - > $JSON_FILE <<END_OF_CHUNK
 {
     "version": 3,
@@ -132,6 +133,7 @@ cat - > $JSON_FILE <<END_OF_CHUNK
     "evaluation_entities": [
 END_OF_CHUNK
 
+
 deref_ee() {
 	ACCESS_VAR="$1_$2"
 	echo "${!ACCESS_VAR}"
@@ -145,6 +147,7 @@ deref_tc() {
 for i in $(seq 1 ${NUMBER_OF_EVALUATION_ENTITIES}); do
 	ee_idx=$(($i-1))
 
+	# begin evaluation_entities
 	cat - >> $JSON_FILE <<END_OF_CHUNK
         {
             "type": "$(deref_ee EVALUATION_ENTITY_TYPE $ee_idx)",
@@ -156,6 +159,7 @@ END_OF_CHUNK
     ee_tc_cnt_acc="NUMBER_OF_TRIGGERED_CONDITIONS_PER_EVALUATION_ENTITY_${ee_idx}"
     for j in $(seq 1 ${!ee_tc_cnt_acc}); do
     	tc_idx=$(($i-1))
+    	# begin triggered_conditions
     	cat - >> $JSON_FILE <<END_OF_CHUNK
                 {
                     "scope_type": "$(deref_tc SCOPE_TYPE $ee_idx $tc_idx)",
@@ -165,46 +169,60 @@ END_OF_CHUNK
                     "condition_id": "$(deref_tc CONDITION_ID $ee_idx $tc_idx)",
                     "operator": "$(deref_tc OPERATOR $ee_idx $tc_idx)",
                     "condition_unit_type": "$(deref_tc CONDITION_UNIT_TYPE $ee_idx $tc_idx)",
+END_OF_CHUNK
+		condition_unit_type="$(deref_tc CONDITION_UNIT_TYPE $ee_idx $tc_idx)"
+		if [ "${condition_unit_type:0:9}" == "BASELINE_" ]; then
+				# begin baseline? (use_default_baseline)
+				cat - >> $JSON_FILE <<END_OF_CHUNK
                     "use_default_baseline": "$(deref_tc USE_DEFAULT_BASELINE $ee_idx $tc_idx)",
 END_OF_CHUNK
-		if [ "$(deref_tc USE_DEFAULT_BASELINE $ee_idx $tc_idx)" == "false" ]; then
-			cat - >> $JSON_FILE <<END_OF_CHUNK
+			if [ "$(deref_tc USE_DEFAULT_BASELINE $ee_idx $tc_idx)" == "false" ]; then
+				cat - >> $JSON_FILE <<END_OF_CHUNK
                     "baseline_name": "$(deref_tc BASELINE_NAME $ee_idx $tc_idx)",
                     "baseline_id": "$(deref_tc BASELINE_ID $ee_idx $tc_idx)",
 END_OF_CHUNK
+			fi
 		fi
 
+		# resume triggered_conditions
 		cat - >> $JSON_FILE <<END_OF_CHUNK
                     "threshold_value": "$(deref_tc THRESHOLD_VALUE $ee_idx $tc_idx)",
                     "observed_value": "$(deref_tc OBSERVED_VALUE $ee_idx $tc_idx)"
 END_OF_CHUNK
 		if [ $j -lt ${!ee_tc_cnt_acc} ]; then
+			# more triggered_conditions
 			cat - >> $JSON_FILE <<END_OF_CHUNK
                 },
 END_OF_CHUNK
 		else
+			# last triggered_condition
 			cat - >> $JSON_FILE <<END_OF_CHUNK
                 }
 END_OF_CHUNK
 		fi
 	done
+	# end triggered_conditions
 	cat - >> $JSON_FILE <<END_OF_CHUNK
             ]
 END_OF_CHUNK
 	if [ $i -lt ${NUMBER_OF_EVALUATION_ENTITIES} ]; then
+		# more evaluation_entities
 		cat - >> $JSON_FILE <<END_OF_CHUNK
         },
 END_OF_CHUNK
 	else
+		# last evaluation_entity
 		cat - >> $JSON_FILE <<END_OF_CHUNK
         }
 END_OF_CHUNK
 	fi
+	# end evaluation_entities
 	cat - >> $JSON_FILE <<END_OF_CHUNK
     ]
 END_OF_CHUNK
 done
 
+# end data
 cat - >> $JSON_FILE <<END_OF_CHUNK
 }
 END_OF_CHUNK
