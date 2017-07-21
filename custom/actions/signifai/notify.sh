@@ -230,4 +230,12 @@ cat - >> $JSON_FILE <<END_OF_CHUNK
 END_OF_CHUNK
 
 cat $JSON_FILE
+curl -XPOST "$COLLECTOR_URL" -H "Content-Type: application/json" -d "@${JSON_FILE}" -s
+if [ $? -eq 0 ]; then
+	echo "Submitted health rule violation to SignifAi successfully"
+else
+	echo "Failed to submit health rule violation to SignifAi successfully"
+	exit 1
+fi
+
 rm $JSON_FILE
