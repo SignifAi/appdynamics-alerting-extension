@@ -46,7 +46,7 @@ quote_sanitize() {
 
 # Gather args into their variables
 for arg in $BASE_ARGS; do
-	printf -v "$arg" %s "$(quote_sanitize $1)"
+	printf -v "$arg" %s "$(quote_sanitize "$1")"
 	shift
 	if [ "$arg" == "NUMBER_OF_EVALUATION_ENTITIES" ]; then
 		[ -z "$NUMBER_OF_EVALUATION_ENTITIES" ] && NUMBER_OF_EVALUATION_ENTITIES=0
@@ -55,7 +55,7 @@ for arg in $BASE_ARGS; do
 				for ee_arg in $EVALUATION_ENTITY_ARGS; do
 					ee_idx=$(($i-1))
 					ee_var="${ee_arg}_${ee_idx}"
-					printf -v "$ee_var" %s "$(quote_sanitize $1)"
+					printf -v "$ee_var" %s "$(quote_sanitize "$1")"
 					shift
 					if [ "$ee_arg" == "NUMBER_OF_TRIGGERED_CONDITIONS_PER_EVALUATION_ENTITY" ]; then
 						NTCPEE_var="${ee_arg}_${ee_idx}"
@@ -65,7 +65,7 @@ for arg in $BASE_ARGS; do
 								for tc_arg in $TRIGGERED_CONDITION_ARGS; do
 									tc_idx=$(($j-1))
 									tc_var="${tc_arg}_${ee_idx}_${tc_idx}"
-									printf -v "$tc_var" %s "$(quote_sanitize $1)"
+									printf -v "$tc_var" %s "$(quote_sanitize "$1")"
 									shift
 									if [ "$tc_arg" == "CONDITION_UNIT_TYPE" ]; then
 										for tcb_arg in $TC_BASELINE_ARGS; do
@@ -77,7 +77,7 @@ for arg in $BASE_ARGS; do
 												       \( "${tcb_arg}" == "BASELINE_NAME" -o "${tcb_arg}" == "BASELINE_ID" \) \
 												     \)                                                                       \
 												   ]; then
-													printf -v "$tcb_var" %s "$(quote_sanitize $1)"
+													printf -v "$tcb_var" %s "$(quote_sanitize "$1")"
 													shift
 												else
 													printf -v "$tcb_var" %s ""
