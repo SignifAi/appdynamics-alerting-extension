@@ -130,7 +130,7 @@ cat - > $JSON_FILE <<END_OF_CHUNK
         "time": "${PVN_ALERT_TIME}",
         "tag": "${TAG}"
     },
-    "summary_message": "${SUMMARY_MESSSAGE}",
+    "summary_message": "${SUMMARY_MESSAGE}",
     "incident_id": "${INCIDENT_ID}",
     "deep_link_url": "${DEEP_LINK_URL}",
     "event_type": "${EVENT_TYPE}",
