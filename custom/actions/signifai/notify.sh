@@ -119,7 +119,7 @@ cat - > $JSON_FILE <<END_OF_CHUNK
     },
     "application": {
         "name": "${APP_NAME}",
-        "id": "${APP_ID}",
+        "id": "${APP_ID}"
     },
     "alert": {
         "time": "${PVN_ALERT_TIME}",
@@ -218,14 +218,11 @@ END_OF_CHUNK
         }
 END_OF_CHUNK
 	fi
-	# end evaluation_entities
-	cat - >> $JSON_FILE <<END_OF_CHUNK
-    ]
-END_OF_CHUNK
 done
 
-# end data
+# end evaluation_entities and data
 cat - >> $JSON_FILE <<END_OF_CHUNK
+    ]
 }
 END_OF_CHUNK
 
@@ -239,3 +236,4 @@ else
 fi
 
 rm $JSON_FILE
+
