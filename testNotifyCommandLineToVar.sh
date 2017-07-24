@@ -35,7 +35,7 @@
 # TC_BASELINE_ARGS="USE_DEFAULT_BASELINE BASELINE_NAME BASELINE_ID"
 
 echo "=== Test with default baseline, one evaluation, one condition ==="
-sh custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERROR CRITICAL        \
+bash custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERROR CRITICAL        \
                                      "testTag" testHealthRule $(uuidgen) 5 "HOST"                 \
                                      "testhost.signifai.io" $(uuidgen) 1                          \
                                      APPLICATION testConnectionThreshold $(uuidgen) 1             \
@@ -45,7 +45,7 @@ sh custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERRO
                                      POLICY_OPEN_CRITICAL SignifAi 343434
 
 echo "=== Test with custom(?) baseline, one evaluation, one condition ==="
-sh custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERROR CRITICAL        \
+bash custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERROR CRITICAL        \
                                      "testTag" testHealthRule $(uuidgen) 5 "HOST"                 \
                                      "testhost.signifai.io" $(uuidgen) 1                          \
                                      APPLICATION testConnectionThreshold $(uuidgen) 1             \
@@ -56,7 +56,7 @@ sh custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERRO
                                      POLICY_OPEN_CRITICAL SignifAi 343434
 
 echo "=== Test with not baseline, one evaluation, one condition ==="
-sh custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERROR CRITICAL        \
+bash custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERROR CRITICAL        \
                                      "testTag" testHealthRule $(uuidgen) 5 "HOST"                 \
                                      "testhost.signifai.io" $(uuidgen) 1                          \
                                      APPLICATION testConnectionThreshold $(uuidgen) 1             \
@@ -64,3 +64,7 @@ sh custom/actions/signifai/notify.sh signifaiTestApp $(uuidgen) $(date +%s) ERRO
                                          GREATER_THAN ABSOLUTE 85 95                              \
                                      "Connection threshold violated" 353535 http://example.com/   \
                                      POLICY_OPEN_CRITICAL SignifAi 343434
+
+
+echo "== live test =="
+bash custom/actions/signifai/notify.sh "exoserver" "5" "Mon Jul 24 16:39:57 UTC 2017" "1" "INFO" "notify-signifai" "justalertpls" "21" "30" "APPLICATION" "exoserver" "5" "0" "justalertpls triggered at Mon Jul 24 16:39:57 UTC 2017. This policy was violated because the following conditions were met for the exoserver Application for the last 30 minute(s): " "3" "http://ip-10-80-18-78:8090/controller/#location=APP_INCIDENT_DETAIL&incident=" "POLICY_CANCELED_CRITICAL" "ACCOUNT" "customer1_c600a4d1-cbee-41ff-936e-c60c9c19f389"
